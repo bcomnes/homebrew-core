@@ -32,6 +32,14 @@ class Seaweedfs < Formula
     system "go", "build", *std_go_args(ldflags:, output: bin/"weed"), "./weed"
   end
 
+  service do
+    run [opt_bin/"weed", "server", "-dir=#{var}/seaweedfs"]
+    keep_alive true
+    error_log_path var/"log/seaweedfs.log"
+    log_path var/"log/seaweedfs.log"
+    working_dir var
+  end
+
   test do
     # Start SeaweedFS master server/volume server
     master_port = free_port
